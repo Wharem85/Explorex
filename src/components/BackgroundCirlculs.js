@@ -3,10 +3,6 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 export default function BackgroundCircles() {
   return (
 		<View style={styles.container}>
-			<Image source={require('../assets/img/circulos_pantallas/yellow-background.jpg')}
-				resizeMode="cover"
-				style={[styles.circle, styles.backYellow]}
-			/>
 			<Image source={require('../assets/img/circulos_pantallas/Círculo-morado-2.png')}
 				resizeMode="cover"
 				style={[styles.circle, styles.small]}

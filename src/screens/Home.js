@@ -1,38 +1,47 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Platform } from 'react-native';
 import LottieView from 'lottie-react-native';
 import animationD from '../assets/animations/D_con_fuego_02.json';
 import BackgroundGeneral from '../containers/BackgroundGeneral';
 
-export default function Home() {
+export default function Home({ navigation }) {
 	const lottieRef = useRef(null);
 
   useEffect(() => {
     // Iniciar la animación en un loop
-    lottieRef.current.play(0, true);
-
-    // Detener la animación cuando se desmonte el componente
-    return () => {
-      lottieRef.current.reset();
-    };
+    if (lottieRef.current) {
+      // Iniciar la animación en un loop
+      lottieRef.current.play(0, -1); // El segundo argumento -1 indica loop infinito
+    }
   }, []);
+
+	const changeScreen = () => {
+		navigation.navigate('responseQuestions')
+	}
 
   return (
 		<BackgroundGeneral>
-			<View style={styles.container}>
-				<Image source={require('../assets/img/moneda.png')} style={styles.coin} />
-      	<Text style={styles.score}>000000</Text>
-				<View style={styles.arrowDownCont}>
-					<Image source={require('../assets/img/arrowup.png')} style={styles.arrowDown} />
-				</View>
-			</View>
-			<LottieView
-				ref={lottieRef}
-				source={animationD}
-				autoPlay
-				loop
-				style={styles.animation}
-			/>
+			{(Platform.OS === 'android' || Platform.OS == 'ios') &&
+				<LottieView
+					ref={lottieRef}
+					source={animationD}
+					autoPlay
+					loop
+					style={styles.animation}
+				/>
+			}
+			{Platform.OS === 'web' &&
+				<Image
+					source={require('../assets/img/pantalla_puntos/DconGlow.png')}
+					style={[styles.circle, styles.cohete]}
+				/>
+			}
+			{Platform.OS === 'web' &&
+				<Image
+					source={require('../assets/img/pantalla_puntos/Llama.png')}
+					style={[styles.circle, styles.llama]}
+				/>
+			}
 			<Image source={require('../assets/img/circulos_pantallas/Circulo-amarillo-largo.png')}
 				resizeMode="cover"
 				style={[styles.circle, styles.backYellow2]}
@@ -61,7 +70,7 @@ export default function Home() {
 						</Text>
 					</View>
 					<View style={styles.contentButton}>
-						<TouchableOpacity style={styles.button}>
+						<TouchableOpacity style={styles.button} onPress={changeScreen}>
 							<Text style={styles.buttonText}>
 								¡Acepto el reto!
 							</Text>
@@ -74,7 +83,6 @@ export default function Home() {
 				style={[styles.circle, styles.backYellow]}
 			/>
 			<Image source={require('../assets/img/Chanín.png')}
-				resizeMode="cover"
 				style={[styles.circle, styles.chanin]}
 			/>
 		</BackgroundGeneral>
@@ -87,49 +95,20 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
 		height: '100%'
   },
-  container: {
-    position: 'absolute',
-    top: 40,
-    right: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-	coin: {
-    width: 42, // Ajusta el ancho de la moneda según sea necesario
-    height: 42,
-		zIndex: 10
-  },
-  score: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-		backgroundColor: '#083454',
-		height: 30,
-		width: 80,
-		borderRadius: 100,
-		paddingLeft: 10,
-		marginLeft: -10
-  },
-	arrowDownCont: {
-		height: 50,
-		width: 45,
-		marginTop: 10,
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		textAlign: 'center'
-	},
-	arrowDown: {
-		width: 35,
-		height: 35,
-		borderRadius: 10
-	},
 	contentPrincipal: {
 		position: 'absolute',
-		width: '90%',
-		top: '28%',
-		left: '5%',
+		width: Platform.select({
+			web: '70%',
+			default: '90%'
+		}),
+		top: Platform.select({
+			web: '20%',
+			default: '28%'
+		}),
+		left: Platform.select({
+			web: '15%',
+			default: '5%'
+		}),
 		borderBottomWidth: 8,
     borderBottomColor: '#032E54',
     borderRadius: 15,
@@ -139,6 +118,9 @@ const styles = StyleSheet.create({
 	contentPrincipal2: {
 		height: 330,
 		display: 'flex',
+		width: Platform.select({
+			web: '100%'
+		}),
 		textAlign: 'center',
 		alignItems: 'center',
 	},
@@ -173,20 +155,40 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	backYellow: {
-		height: 200,
-		width: '42%',
+		height: Platform.select({
+			web: 400,
+			default: 200
+		}),
+		width: Platform.select({
+			web: '60%',
+			default: '42%'
+		}),
 		position: 'absolute',
-		bottom: 30,
+		bottom: Platform.select({
+			web: 0,
+			default: 20
+		}),
+		left: Platform.select({
+			web: -550,
+		}),
 		borderTopRightRadius: 300,
 		zIndex: 1
 	},
 	chanin: {
 		flex: 1,
-    resizeMode: 'contain',
-		height: 300,
+    resizeMode: Platform.select({
+			default: 'contain'
+		}),
+		height: Platform.select({
+			web: 500,
+			default: 300
+		}),
 		position: 'absolute',
 		bottom: 40,
-		left: -80,
+		left: Platform.select({
+			web: -20,
+			default: -80
+		}),
 		zIndex: 20
 	},
 	animation: {
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		height: 50,
     borderRadius: 15,
-    overflow: 'hidden',
+
 	},
 	buttonText: {
 		textAlign: 'center',
@@ -221,6 +223,9 @@ const styles = StyleSheet.create({
 	},
 	backYellow2: {
 		flex: 1,
+		display: Platform.select({
+			web: 'none',
+		}),
 		resizeMode: 'stretch',
 		position: 'absolute',
 		top: -80,
@@ -228,5 +233,21 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 300,
 		zIndex: 20,
 		transform: [{ rotate: '-10deg' }]
+	},
+	cohete: {
+		position: 'absolute',
+		top: 60,
+		left: '22%',
+		width: 150,
+		height: 150,
+		zIndex: 23
+	},
+	llama: {
+		position: 'absolute',
+		top: 68,
+		left: '12%',
+		width: 150,
+		height: 150,
+		zIndex: 22
 	}
 });

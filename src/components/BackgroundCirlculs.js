@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Platform, Image } from 'react-native';
 
 export default function BackgroundCircles() {
   return (
@@ -32,22 +32,40 @@ const styles = StyleSheet.create({
     // borderRadius: 5, // Para que sea un círculo
   },
   small: {
-    height: 260, // Altura pequeña
+    height: Platform.select({
+			web: 800,
+			default: 260
+		}), // circulo grande
 		width: '100%',
 		position: 'absolute',
-		bottom: -70
+		bottom: Platform.select({
+			web: -500,
+			default: -70
+		}),
   },
   medium: {
-    height: 260, // Altura pequeña
+    height: Platform.select({
+			web: 800,
+			default: 260
+		}), // Circulo mediano
 		width: '100%',
 		position: 'absolute',
-		bottom: -120
+		bottom: Platform.select({
+			web: -650,
+			default: -120
+		}),
   },
   large: {
-    height: 260, // Altura pequeña
+    height: Platform.select({
+			web: 800,
+			default: 260
+		}),  // Circulo pequeña
 		width: '100%',
 		position: 'absolute',
-		bottom: -160
+		bottom: Platform.select({
+			web: -700,
+			default: -160
+		}),
   },
 	backYellow: {
 		height: 280, // Altura pequeña

@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Platform } from 'react-native';
 
 export default function Moon() {
   return (
@@ -14,15 +14,20 @@ export default function Moon() {
 const styles = StyleSheet.create({
 	container: {
     position: 'absolute',
-    top: 30,
+    top: 20,
     left: 0,
   },
   circle: {
   },
   moon: {
-    height: 100,
-		width: 100,
+    height: Platform.select({
+      web: 150,
+      default: 100
+    }),
+		width: Platform.select({
+      web: 150,
+      default: 100
+    }),
 		position: 'absolute',
-
   },
 });

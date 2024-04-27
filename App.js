@@ -6,6 +6,7 @@ import Home from './src/screens/Home';
 import Store from './src/screens/Store';
 import Awards from './src/screens/Awards';
 import Ranking from './src/screens/Ranking';
+import ResponseQuestions from './src/screens/ResponseQuestions';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ function MyStack() {
       <Stack.Screen name="store" component={Store} options={{ headerShown: false }} />
       <Stack.Screen name="awards" component={Awards} options={{ headerShown: false }} />
       <Stack.Screen name="ranking" component={Ranking} options={{ headerShown: false }} />
+      <Stack.Screen name="responseQuestions" component={ResponseQuestions} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

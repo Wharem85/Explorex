@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   small: {
     height: Platform.select({
-			web: 800,
+			web: 900,
 			default: 260
 		}), // circulo grande
 		width: '100%',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   medium: {
     height: Platform.select({
-			web: 800,
+			web: 850,
 			default: 260
 		}), // Circulo mediano
 		width: '100%',
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   large: {
     height: Platform.select({
-			web: 800,
+			web: 850,
 			default: 260
 		}),  // Circulo pequeña
 		width: '100%',

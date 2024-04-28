@@ -69,6 +69,8 @@ export default function Home({ navigation }) {
 							Jerarquía de operaciones
 						</Text>
 					</View>
+				</ImageBackground>
+			</View>
 					<View style={styles.contentButton}>
 						<TouchableOpacity style={styles.button} onPress={changeScreen}>
 							<Text style={styles.buttonText}>
@@ -76,8 +78,6 @@ export default function Home({ navigation }) {
 							</Text>
 						</TouchableOpacity>
 					</View>
-				</ImageBackground>
-			</View>
 			<Image source={require('../assets/img/circulos_pantallas/yellow-background.jpg')}
 				resizeMode="cover"
 				style={[styles.circle, styles.backYellow]}
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
 			default: 20
 		}),
 		left: Platform.select({
-			web: -550,
+			web: -650,
 		}),
 		borderTopRightRadius: 300,
 		zIndex: 1
@@ -203,7 +203,17 @@ const styles = StyleSheet.create({
 		width: 190,
 		borderRadius: 15,
 		backgroundColor: '#8D8D8D',
-		height: 55
+		height: 55,
+		position: 'absolute',
+		top: Platform.select({
+			web: '60%',
+			default: '56%'
+		}),
+		left: Platform.select({
+			web: '45%',
+			default: '25%'
+		}),
+		zIndex: 22
 	},
 	button: {
 		backgroundColor: 'white',
@@ -237,7 +247,10 @@ const styles = StyleSheet.create({
 	cohete: {
 		position: 'absolute',
 		top: 60,
-		left: '22%',
+		left: Platform.select({
+			web: '21%',
+			default: '22%'
+		}),
 		width: 150,
 		height: 150,
 		zIndex: 23

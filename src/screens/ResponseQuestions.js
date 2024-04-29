@@ -211,7 +211,10 @@ export default function ResponseQuestions({setCoin, coin}) {
 							{currentQuestion.instruction}
 						</Text>
 					</View>
-					{renderQuestionText(currentQuestion.question)}
+					<View style={{height: 100}}>
+						{renderQuestionText(currentQuestion.question)}
+
+					</View>
 				</View>
 				<View style={styles.optionsContainer}>
 					<View style={styles.row}>

@@ -2,15 +2,16 @@ import { StyleSheet, Text, View, ImageBackground, Image, Platform } from 'react-
 import Moon from '../components/Moon';
 import TabsBottom from '../components/TabsBottom';
 import BackgroundCircles from '../components/BackgroundCirlculs';
+import React, { useContext } from 'react';
 
-export default function BackgroundGeneral({children}) {
-  return (
+export default function BackgroundGeneral({children, coin}) {
+	return (
 		<ImageBackground
       source={require('../assets/img/background-general.png')}
       style={styles.backgroundImage}>
 			<View style={styles.container}>
 				<Image source={require('../assets/img/moneda.png')} style={styles.coin} />
-      	<Text style={styles.score}>000000</Text>
+      	<Text style={styles.score}>{coin}</Text>
 				<View style={styles.arrowDownCont}>
 					<Image source={require('../assets/img/arrowup.png')} style={styles.arrowDown} />
 				</View>

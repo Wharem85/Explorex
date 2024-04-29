@@ -1,92 +1,300 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Button, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, Image, Platform,TouchableOpacity } from 'react-native';
 import BackgroundGeneral from '../containers/BackgroundGeneral';
 import { jerarquia } from '../utils/jerarquiaOperaciones'
+import { Audio } from 'expo-av';
+import LottieView from 'lottie-react-native';
+import animationE from '../assets/animations/Estrellitas.json';
+import ViewResults from './ViewResults';
 
-export default function ResponseQuestions({ level, maxLevel }) {
-	const progressWidth = (level / maxLevel) * 100;
+export default function ResponseQuestions({setCoin, coin}) {
+	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+	const [buttonStates, setButtonStates] = useState([
+    { color: '#6AB1B5', image: null, correct: 0 },
+    { color: '#6AB1B5', image: null, correct: 0 },
+    { color: '#6AB1B5', image: null, correct: 0 },
+    { color: '#6AB1B5', image: null, correct: 0 }
+  ]);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+	const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+	const [correctSound, setCorrectSound] = useState();
+	const [incorrectSound, setIncorrectSound] = useState();
+	const [viewRes, setViewRes] = useState(false);
 
-  return (
-		<BackgroundGeneral>
-			<Image source={require('../assets/img/Chanín.png')}
-				style={[styles.circle, styles.chanin]}
-			/>
-			<View style={styles.titleCont}>
-				<Text style={styles.textPrin}>
-					¡Desafíate!
-				</Text>
-			</View>
-			<Image
-				source={require('../assets/img/Línea_título.png')}
-				resizeMode="cover"
-				style={styles.lineaTitle}
-			/>
-			<View style={styles.container}>
-      	<Text style={styles.levelText}>Nivel {level}/{maxLevel}</Text>
-				<View style={styles.centerBar}>
-					<View style={styles.progressBarBackground}>
-						<View style={[styles.progressBarFill, { width: `${progressWidth}%` }]} />
-					</View>
-				</View>
-    	</View>
+  const lottieRef = useRef(null);
+	const lottieRef2 = useRef(null);
 
-			{jerarquia.map((questions) => (
-				<View style={styles.questionContainer}>
-					<View>
-						<Text>
-							{questions.instruction}
-						</Text>
-						<Text>
-							{questions.help}
-						</Text>
-						<Text>
-							{questions.help2}
-						</Text>
-						<Text>
-							{questions.help3}
-						</Text>
-					</View>
-					<View>
-						<Text style={styles.question}>
-							{questions.question}
-						</Text>
+	const progressWidth = ((currentQuestionIndex / 20) * 100);
+
+  const handleNextQuestion = async () => {
+		setButtonStates([
+			{ color: '#6AB1B5', image: null, correct: 0 },
+			{ color: '#6AB1B5', image: null, correct: 0 },
+			{ color: '#6AB1B5', image: null, correct: 0 },
+			{ color: '#6AB1B5', image: null, correct: 0 }
+  	])
+		setButtonDisabled(false);
+		lottieRef.current?.reset();
+    lottieRef.current?.play();
+    if (currentQuestionIndex < jerarquia.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+			setCoin(`000${correctCount * 5}`)
+			setViewRes(true);
+      // Si ya has respondido todas las preguntas, puedes realizar alguna acción, como mostrar un botón de "Calificar".
+    }
+  };
+
+  const currentQuestion = jerarquia[currentQuestionIndex];
+
+	const viewAnswer = (id, answer, posibbleAnswer) => {
+		const newButtonStates = [...buttonStates];
+    if (answer == posibbleAnswer) {
+      newButtonStates[id] = { color: '#6FBA3B', image: null, correct: 1 };
+			playCorrectSound();
+			lottieRef2.current?.reset();
+      lottieRef2.current?.play();
+			setCorrectCount(correctCount + 1);
+    } else {
+			const correctIndex = currentQuestion.answers.findIndex((question,i) =>  {
+				if (question == answer) {
+					return i
+				}
+			});
+      newButtonStates[correctIndex] = { ...newButtonStates[correctIndex], image: require('../assets/img/check.png') };
+			newButtonStates[id] = { color: '#E4323C', image: null };
+			playIncorrectSound()
+			setIncorrectCount(incorrectCount + 1);
+    }
+    setButtonStates(newButtonStates);
+		setButtonDisabled(true)
+	}
+
+	useEffect(() => {
+		const loadSounds = async () => {
+			const correctSoundObject = new Audio.Sound();
+			const incorrectSoundObject = new Audio.Sound();
+
+			try {
+				await correctSoundObject.loadAsync(require('../assets/sounds/RespuestaCorrecta.mp3'));
+				await incorrectSoundObject.loadAsync(require('../assets/sounds/RespuestaIncorrecta.mp3'));
+				setCorrectSound(correctSoundObject);
+				setIncorrectSound(incorrectSoundObject);
+			} catch (error) {
+				console.error('Error loading sound', error);
+			}
+		};
+
+		loadSounds();
+
+		return () => {
+			if (correctSound) {
+				correctSound.unloadAsync();
+			}
+			if (incorrectSound) {
+				incorrectSound.unloadAsync();
+			}
+		};
+	}, []);
+
+
+	const playCorrectSound = async () => {
+		try {
+			await correctSound.replayAsync();
+		} catch (error) {
+			console.error('Error playing correct sound', error);
+		}
+	};
+
+	const playIncorrectSound = async () => {
+		try {
+			await incorrectSound.replayAsync();
+		} catch (error) {
+			console.error('Error playing incorrect sound', error);
+		}
+	};
+
+	const renderQuestionText = (question) => {
+    if (question.includes('__')) {
+      const [part1, part2] = question.split('__');
+      return (
+        <View style={styles.questionTextContainer}>
+          <Text style={styles.questionText}>
+						{part1}
 						<Image
 							source={require('../assets/img/QuestionMark.png')}
-							resizeMode="cover"
+							resizeMode="stretch"
 							style={styles.questionMark}
 						/>
-					</View>
-					<View style={styles.optionsContainer}>
-						<Button title="21" color="#48BB78" />
-						<Button title="10" color="#48BB78" />
-						<Button title="17" color="#34D399" />
-						<Button title="13" color="#48BB78" />
+						{part2}
+					</Text>
+        </View>
+      );
+    } else if (question.includes('=')) {
+			return (
+        <View style={styles.questionTextContainer}>
+          <Text style={styles.questionText}>
+						{`${question} `}
+						<Image
+							source={require('../assets/img/QuestionMark.png')}
+							resizeMode="stretch"
+							style={styles.questionMark}
+						/>
+					</Text>
+        </View>
+      );
+		} else {
+      return (
+        <View style={styles.questionTextContainer}>
+          <Text style={styles.questionText}>
+						{question}
+					</Text>
+        </View>
+      );
+    }
+  };
+
+  return (
+		<BackgroundGeneral coin={coin}>
+			{!viewRes &&
+			<>
+				<Image source={require('../assets/img/Chanín.png')}
+					style={[styles.circle, styles.chanin]}
+				/>
+				<View style={styles.titleCont}>
+					<Text style={styles.textPrin}>
+						¡Desafíate!
+					</Text>
+				</View>
+				<Image
+					source={require('../assets/img/Línea_título.png')}
+					resizeMode="cover"
+					style={styles.lineaTitle}
+				/>
+				<View style={styles.container}>
+					<Text style={styles.levelText}>Nivel {currentQuestionIndex + 1}/20</Text>
+					<View style={styles.centerBar}>
+						<View style={styles.progressBarBackground}>
+							<Image source={require('../assets/img/BarraProgresoNaranja.png')} style={[styles.progressBarFill, { width: `${progressWidth + 5}%` }]} />
+						</View>
 					</View>
 				</View>
-			))}
+				{(Platform.OS === 'android' || Platform.OS == 'ios') &&
+					<LottieView
+						ref={lottieRef}
+						source={animationE}
+						autoPlay={false}
+						loop={false}
+						style={[styles.animation, {left: `${(progressWidth-8)}%`}]}
+					/>
+				}
 
-			<View style={styles.buttonContainer}>
-        <Text style={styles.report}>Reportar pregunta</Text>
-      </View>
+				<View style={styles.questionContainer}>
+					<View style={styles.containInstruction}>
+						<Text style={styles.instrucion}>
+							{currentQuestion.instruction}
+						</Text>
+					</View>
+					{renderQuestionText(currentQuestion.question)}
+				</View>
+				<View style={styles.optionsContainer}>
+					<View style={styles.row}>
+						<TouchableOpacity disabled={buttonDisabled} style={[styles.buttonStyles, {backgroundColor: buttonStates[0].color}]} onPress={() => viewAnswer(0, currentQuestion.answer, currentQuestion.answers[0])}>
+							<Text style={styles.textButton}>
+								{currentQuestion.answers[0]}
+							</Text>
+							{buttonStates[0].image && (
+								<Image source={buttonStates[0].image} style={styles.image} />
+							)}
+						</TouchableOpacity>
+						<TouchableOpacity disabled={buttonDisabled} style={[styles.buttonStyles, {backgroundColor: buttonStates[1].color}]} onPress={() => viewAnswer(1, currentQuestion.answer, currentQuestion.answers[1])}>
+							<Text style={styles.textButton}>
+								{currentQuestion.answers[1]}
+							</Text>
+							{buttonStates[1].image && (
+								<Image source={buttonStates[1].image} style={styles.image} />
+							)}
+
+						</TouchableOpacity>
+					</View>
+					<View style={styles.row}>
+						<TouchableOpacity disabled={buttonDisabled} style={[styles.buttonStyles, {backgroundColor: buttonStates[2].color}]} onPress={() => viewAnswer(2, currentQuestion.answer, currentQuestion.answers[2])}>
+							<Text style={styles.textButton}>
+								{currentQuestion.answers[2]}
+							</Text>
+							{buttonStates[2].image && (
+								<Image source={buttonStates[2].image} style={styles.image} />
+							)}
+						</TouchableOpacity>
+						<TouchableOpacity disabled={buttonDisabled} style={[styles.buttonStyles, {backgroundColor: buttonStates[3].color}]} onPress={() => viewAnswer(3, currentQuestion.answer, currentQuestion.answers[3])}>
+							<Text style={styles.textButton}>
+								{currentQuestion.answers[3]}
+							</Text>
+							{buttonStates[3].image && (
+								<Image source={buttonStates[3].image} style={styles.image} />
+							)}
+						</TouchableOpacity>
+					</View>
+				</View>
+				<View style={styles.buttonContainer}>
+					<TouchableOpacity style={styles.buttonNext} onPress={handleNextQuestion}>
+						<Text style={styles.textButtonNext}>
+							Siguiente
+						</Text>
+					</TouchableOpacity>
+					<Text style={styles.report}>Reportar pregunta</Text>
+				</View>
+			</>
+			}
+
+			{viewRes &&
+				<ViewResults incorrectCount={incorrectCount} setIncorrectCount={setIncorrectCount} correctCount={correctCount} setCorrectCount={setCorrectCount} />
+			}
 		</BackgroundGeneral>
   );
 }
 
 const styles = StyleSheet.create({
+	questionTextContainer: {
+    display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		textAlign: 'center',
+		textAlignVertical: 'center',
+		width: '100%',
+  },
+  questionText: {
+    fontSize: Platform.select({
+			web: 28,
+			default: 18
+		}),
+    fontWeight: 'bold',
+    color: '#133362',
+  },
+	animation: {
+		width: 200,
+		height: 200,
+		position: 'absolute',
+		top: 100,
+	},
 	chanin: {
 		flex: 1,
     resizeMode: Platform.select({
 			default: 'contain'
 		}),
 		height: Platform.select({
-			web: 500,
-			default: 300
+			web: 450,
+			default: 250
 		}),
 		position: 'absolute',
-		bottom: 40,
+		bottom: Platform.select({
+			web: 40,
+			default: -30
+		}),
 		left: Platform.select({
 			web: -20,
-			default: -80
+			default: -70
 		}),
 		zIndex: 20
 	},
@@ -98,7 +306,7 @@ const styles = StyleSheet.create({
 		fontWeight: '800'
 	},
 	titleCont: {
-		marginTop: 120,
+		marginTop: 100,
 	},
 	container: {
     padding: 10,
@@ -136,6 +344,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 	questionContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignSelf: 'center',
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
@@ -144,33 +355,88 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+		width: Platform.select({
+			web: '70%',
+			default: '90%'
+		}),
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginBottom: 20,
+		marginLeft: 20,
+		marginRight: 20,
   },
-  question: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-    color: '#133362',
-  },
+	instrucion: {
+		fontSize: Platform.select({
+			web: 24,
+			default: 18
+		}),
+		textAlign: 'center'
+	},
 	questionMark: {
-		width: 30,
-		height: 40
+		width: 20,
+		height: 30,
 	},
   optionsContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+		marginBottom: 10
+  },
+	row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+		display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+	image: {
+		position: 'absolute',
+		top: -15,
+		right: -20,
+		height: 35,
+		width: 35,
+	},
+	buttonNext: {
+		width: 150,
+		height: 40,
+		backgroundColor: 'white',
+		borderRadius: 10,
+		display: 'flex',
+		justifyContent: 'center'
+	},
+	textButtonNext: {
+		color: '#083454',
+		fontSize: 20,
+		fontWeight: '600',
+		textAlign: 'center',
+		textTransform: 'uppercase'
+	},
+	buttonStyles: {
+		height: 60,
+		width: 170,
+		borderRadius: 10,
+		marginRight: 10,
+		display: 'flex',
+		justifyContent: 'center',
+		alignContent: 'center'
+	},
+	textButton: {
+		color: 'white',
+		textAlign: 'center',
+		fontSize: 17,
+		fontWeight: 'bold'
+	},
   report: {
     fontSize: 12,
     textDecorationLine: 'underline',
     color: '#FFFFFF',
+		marginTop: Platform.select({
+			web: 20,
+			default: 0
+		}),
   },
 });

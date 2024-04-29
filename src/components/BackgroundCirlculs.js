@@ -26,44 +26,39 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  circle: {
-    // width: 100,
-    // aspectRatio: 1, // Mantener el aspecto cuadrado
-    // borderRadius: 5, // Para que sea un círculo
-  },
   small: {
     height: Platform.select({
-			web: 900,
+			web: 1300,
 			default: 260
 		}), // circulo grande
 		width: '100%',
 		position: 'absolute',
 		bottom: Platform.select({
-			web: -500,
+			web: -950,
 			default: -70
 		}),
   },
   medium: {
     height: Platform.select({
-			web: 850,
+			web: 1300,
 			default: 260
 		}), // Circulo mediano
 		width: '100%',
 		position: 'absolute',
 		bottom: Platform.select({
-			web: -650,
+			web: -1060,
 			default: -120
 		}),
   },
   large: {
     height: Platform.select({
-			web: 850,
+			web: 1300,
 			default: 260
 		}),  // Circulo pequeña
 		width: '100%',
 		position: 'absolute',
 		bottom: Platform.select({
-			web: -700,
+			web: -1100,
 			default: -160
 		}),
   },

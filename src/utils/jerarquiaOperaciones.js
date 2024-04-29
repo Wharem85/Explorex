@@ -6,10 +6,7 @@ export const jerarquia = [
 		help2: 'b = número entero positivo igual o mayor que 2 y menor que 10',
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 10',
 		question: 'a + b x c =',
-		possibleAnswer1: '(a + b) x c',
-		possibleAnswer2: 'a + b + c',
-		possibleAnswer3: 'a x b + c',
-		possibleAnswer4: 'a + b x c',
+		answers: [ '(a + b) x c', 'a + b + c', 'a x b + c', 'a + b x c'],
 		answer: 'a + b x c'
 	},
 	{
@@ -20,10 +17,7 @@ export const jerarquia = [
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 10',
 		helps: 'a x b < c',
 		question: 'a x b - c = ',
-		possibleAnswer1: 'a x (b - c)',
-		possibleAnswer2: 'a x b - c',
-		possibleAnswer3: 'a x b + c',
-		possibleAnswer4: 'a + b - c',
+		answers: ['a x (b - c)','a x b - c','a x b + c','a + b - c'],
 		answer: 'a x b - c'
 	},
 	{
@@ -32,12 +26,9 @@ export const jerarquia = [
 		help: 'a = número entero positivo igual o mayor que 1 y menor que 10',
 		help2: 'b = número entero positivo igual o mayor que 2 y menor que 10',
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 10',
-		question: 'a + c x b &divide c =',
-		possibleAnswer1: 'a + (c x b) &divide c',
-		possibleAnswer2: '(a + c x b) &divide c',
-		possibleAnswer3: 'a + (c x b) x c',
-		possibleAnswer4: 'a x (c x b) &divide c',
-		answer: 'a + (c x b) &divide c'
+		question: 'a + c x b / c =',
+		answers: ['a + (c x b) / c','(a + c x b) / c','a + (c x b) x c','a x (c x b) / c'],
+		answer: 'a + (c x b) / c'
 	},
 	{
 		id: 4,
@@ -49,10 +40,9 @@ export const jerarquia = [
 		helps: 'axc > d',
 		helps2: 'd < c ',
 		question: 'a + b + a x c - d  =',
-		possibleAnswer1: 'a + (b + a) x c - d',
-		possibleAnswer2: 'a + b + a x (c - d)',
-		possibleAnswer3: 'a + b + a x c - d',
-		possibleAnswer4: '(a + b + a) x c - d',
+		answers: [
+			'a + (b + a) x c - d', 'a + b + a x (c - d)', 'a + b + a x c - d', '(a + b + a) x c - d'
+		],
 		answer: 'a + b + a x c - d'
 	},
 	{
@@ -61,13 +51,10 @@ export const jerarquia = [
 		help: 'a = número entero positivo igual o mayor que 4 y menor que 20',
 		help2: 'b = número entero positivo igual o mayor que 3 y menor que 15',
 		help3: 'c = número entero positivo igual o mayor que 5 y menor que 21',
-		question: 'a + ____ x c = a + b x c',
-		possibleAnswer1: 'a',
-		possibleAnswer2: 'b + 1',
-		possibleAnswer3: 'b - 1',
-		possibleAnswer4: 'c + 1',
-		possibleAnswer5: 'b',
-		possibleAnswer6: 'c',
+		question: 'a + __ x c = a + b x c',
+		answers: [
+			'a', 'b + 1', 'b - 1', 'b'
+		],
 		answer: 'b'
 	},
 	{
@@ -76,12 +63,11 @@ export const jerarquia = [
 		help: 'a = número entero positivo igual o mayor que 5 y menor que 21',
 		help2: 'b = número entero positivo igual o mayor que 2 y menor que 26',
 		help3: 'c = número entero positivo igual o mayor que 3 y menor que 16',
-		question: 'a + c x b __ c = a + c x b &divide c',
-		possibleAnswer1: '&divide',
-		possibleAnswer2: '+',
-		possibleAnswer3: '-',
-		possibleAnswer4: 'x',
-		answer: '&divide'
+		question: 'a + c x b __ c = a + c x b / c',
+		answers: [
+			'/', '+', '-', 'x'
+		],
+		answer: '/'
 	},
 	{
 		id: 7,
@@ -90,12 +76,11 @@ export const jerarquia = [
 		help2: 'b = número entero positivo igual o mayor que 2 y menor que 16',
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 16',
 		help4: 'd = número entero positivo igual o mayor que 1 y menor que 10',
-		question: 'a x d + c x b __ c = a x d + c x b &divide c',
-		possibleAnswer1: '+',
-		possibleAnswer2: '-',
-		possibleAnswer3: '&divide',
-		possibleAnswer4: 'x',
-		answer: '&divide'
+		question: 'a x d + c x b __ c = a x d + c x b / c',
+		answers: [
+			'+', '-', '/', 'x'
+		],
+		answer: '/'
 	},
 	{
 		id: 8,
@@ -106,10 +91,9 @@ export const jerarquia = [
 		help4: 'd = número entero positivo igual o mayor que 1 y menor que 21',
 		helps: 'd < b',
 		question: 'a + b x c - d =',
-		possibleAnswer1: '(a + b) x c - d',
-		possibleAnswer2: 'a + b x (c - d)',
-		possibleAnswer3: 'a + b x c - d',
-		possibleAnswer4: 'a + b) x (c - d)',
+		answers: [
+			'(a + b) x c - d', 'a + b x (c - d)', 'a + b x c - d', 'a + b) x (c - d)'
+		],
 		answer: 'a + b x c - d'
 	},
 	{
@@ -118,12 +102,11 @@ export const jerarquia = [
 		help: 'a = Número entero positivo mayor o igual a 2 y menor o igual a 15',
 		help2: 'b = Número entero positivo mayor o igual a 2 y menor o igual a 10',
 		help3: 'c = Número entero positivo mayor o igual a 3 y menor o igual a 15',
-		question: 'a +   b x c __ b = a + b x c &divide b',
-		possibleAnswer1: 'x',
-		possibleAnswer2: '&divide',
-		possibleAnswer3: '-',
-		possibleAnswer4: '+',
-		answer: '&divide'
+		question: 'a +   b x c __ b = a + b x c / b',
+		answers: [
+			'x', '/', '-', '+'
+		],
+		answer: '/'
 	},
 	{
 		id: 10,
@@ -133,10 +116,9 @@ export const jerarquia = [
 		help3: 'c = Número entero positivo mayor o igual que 2 y menor o igual que 10',
 		help4: 'd = Número entero positivo mayor o igual que 2 y menor o igual que 10',
 		question: 'a x b + c - d',
-		possibleAnswer1: 'a x b',
-		possibleAnswer2: 'b + c',
-		possibleAnswer3: 'c - d',
-		possibleAnswer4: 'a + c',
+		answers: [
+			'a x b', 'b + c', 'c - d', 'a + c'
+		],
 		answer: 'a x b'
 	},
 	{
@@ -148,11 +130,10 @@ export const jerarquia = [
 		help3: 'c = Número entero positivo mayor o igual que 3 y menor o igual que 10',
 		helps: 'A = planetas, asteroides, cometas',
 		helps2: 'B = satélites, meteoritos, estrellas',
-		possibleAnswer1: 'a + b + c',
-		possibleAnswer2: 'a x b + c',
-		possibleAnswer3: 'b x c - a',
-		possibleAnswer4: 'a + b x c',
-		answer: 'a + b x c '
+		answers: [
+			'a + b + c', 'a x b + c', 'b x c - a', 'a + b x c'
+		],
+		answer: 'a + b x c'
 	},
 	{
 		id: 12,
@@ -165,10 +146,9 @@ export const jerarquia = [
 		help6: 'f = Número entero positivo mayor o igual que 2 y menor o igual que 10',
 		helps: 'A = astronautas, científicos, exploradores espaciales',
 		question: 'Durante un recorrido espacial un grupo de A recorrieron a m hacia la parte más externa de la estación y b m hacia el espacio. Luego dieron c vueltas a la estación espacial cuya circunferencia mide d m. Para finalizar exploraron el espacio caminando e x f m en f viajes de la misma longitud. ¿Qué expresión representa mejor la distancia total que recorrieron?',
-		possibleAnswer1: 'a x b + c x d + e x f',
-		possibleAnswer2: 'a + b + c x d + e x f',
-		possibleAnswer3: 'a + b + c x d + e + f',
-		possibleAnswer4: 'a + b + c + d + e x f',
+		answers: [
+			'a x b + c x d + e x f', 'a + b + c x d + e x f', 'a + b + c x d + e + f', 'a + b + c + d + e x f'
+		],
 		answer: 'a + b + c x d + e x f'
 	},
 	{
@@ -179,11 +159,10 @@ export const jerarquia = [
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 15',
 		help4: 'd = número entero positivo igual o mayor que 1 y menor que 10',
 		helps: 'd < c',
-		question: 'a + b + a x c - d  =',
-		possibleAnswer1: 'a + b + a x c - d',
-		possibleAnswer2: '(a + b) + a x c - d',
-		possibleAnswer3: 'a + b + a x (c - d)',
-		possibleAnswer4: 'a + (b + a) x c - d',
+		question: 'a + b + a x c - d =',
+		answers: [
+			'a + b) + a x c - d', 'a + b + a x (c - d)', 'a + (b + a) x c - d', 'a + b + a x c - d'
+		],
 		answer: 'a + b + a x c - d'
 	},
 	{
@@ -195,12 +174,11 @@ export const jerarquia = [
 		help4: 'd = número entero positivo igual o mayor que 1 y menor que 16',
 		help5: 'e = número entero positivo mayor que 1 y menor que 11',
 		helps: 'c < a ',
-		question: 'a x b - c + e x d &divide e = ',
-		possibleAnswer1: 'a x (b - c) + e x d &divide e',
-		possibleAnswer2: 'a x b - (c + e x d &divide e)',
-		possibleAnswer3: 'a x b + c + e x d &divide e',
-		possibleAnswer4: 'a x b - c + e x d &divide e',
-		answer: 'a x b - c + e x d &divide e'
+		question: 'a x b - c + e x d / e = ',
+		answers: [
+			'a x (b - c) + e x d / e', 'a x b - (c + e x d / e)', 'a x b + c + e x d / e', 'a x b - c + e x d / e'
+		],
+		answer: 'a x b - c + e x d / e'
 	},
 	{
 		id: 15,
@@ -209,12 +187,11 @@ export const jerarquia = [
 		help2: 'b = número entero positivo igual o mayor que 2 y menor que 16',
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 16',
 		help4: 'd = número entero positivo igual o mayor que 1 y menor que 10',
-		question: 'a x d + c x b &divide c - a + b=',
-		possibleAnswer1: 'a x (d + c x b) &divide c - a + b ',
-		possibleAnswer2: 'a x d + c x b &divide c - a + b',
-		possibleAnswer3: 'a x d + c x b &divide (c  - a) + b',
-		possibleAnswer4: 'a + d + c x b &divide c  - a + b',
-		answer: 'a x d + c x b &divide c - a + b'
+		question: 'a x d + c x b / c - a + b=',
+		answers: [
+			'a x (d + c x b) / c - a + b ', 'a x d + c x b / c - a + b', 'a x d + c x b / (c  - a) + b', 'a + d + c x b / c  - a + b'
+		],
+		answer: 'a x d + c x b / c - a + b'
 	},
 	{
 		id: 16,
@@ -223,10 +200,9 @@ export const jerarquia = [
 		help2: 'b = número entero positivo igual o mayor que 6 y menor que 25',
 		help3: 'c = número entero positivo igual o mayor que 2 y menor que 20',
 		question: 'a + b x c =',
-		possibleAnswer1: 'a + b x c',
-		possibleAnswer2: '(a + b) x c',
-		possibleAnswer3: 'a + b + c',
-		possibleAnswer4: 'a x b + c',
+		answers: [
+			'a + b x c', '(a + b) x c', 'a + b + c', 'a x b + c'
+		],
 		answer: 'a + b x c'
 	},
 	{
@@ -241,10 +217,9 @@ export const jerarquia = [
 		help6: 'f = Número entero positivo mayor o igual que 2 y menor o igual que 10',
 		helps: 'A = satélite, cohete, dispositivo espacial, transbordador',
 		helps2: 'Restricción a > b : f < e',
-		possibleAnswer1: 'a - b + c  + e - f',
-		possibleAnswer2: 'a - b +  d + e - f',
-		possibleAnswer3: 'a - b + c x d + e - f',
-		possibleAnswer4: 'a - b + c x d + f',
+		answers: [
+			'a - b + c  + e - f', 'a - b +  d + e - f', 'a - b + c x d + e - f', 'a - b + c x d + f'
+		],
 		answer: 'a - b + c x d + e - f'
 	},
 	{
@@ -255,10 +230,9 @@ export const jerarquia = [
 		help3: 'c = número entero positivo igual o mayor que 4 y menor que 15',
 		helps: 'c < b',
 		question: 'a x b - c =',
-		possibleAnswer1: 'a x (b - c)',
-		possibleAnswer2: 'a x b - c',
-		possibleAnswer3: 'a + b - c',
-		possibleAnswer4: 'a + b + c',
+		answers: [
+			'a x (b - c)', 'a x b - c', 'a + b - c', 'a + b + c'
+		],
 		answer: 'a x b - c'
 	},
 	{
@@ -267,11 +241,10 @@ export const jerarquia = [
 		help: 'a = número entero positivo igual o mayor que 4 y menor que 20',
 		help2: 'b = número entero positivo igual o mayor que 3 y menor que 15',
 		help3: 'c = número entero positivo igual o mayor que 5 y menor que 21',
-		question: 'a + ________ x c = a + b x c',
-		possibleAnswer1: 'b',
-		possibleAnswer2: 'a',
-		possibleAnswer3: 'b + 1',
-		possibleAnswer4: 'b - 1',
+		question: 'a + __ x c = a + b x c',
+		answers: [
+			'b', 'a', 'b + 1', 'b - 1'
+		],
 		answer: 'b'
 	},
 	{
@@ -280,11 +253,11 @@ export const jerarquia = [
 		help: 'a = número entero positivo igual o mayor que 4 y menor que 16',
 		help2: 'b = número entero positivo igual o mayor que 3 y menor que 21',
 		help3: 'c = número entero positivo igual o mayor que 4 y menor que 13',
-		question: 'a __  c x b &divide c = a + c x b &divide c',
-		possibleAnswer1: '-',
-		possibleAnswer2: 'x',
-		possibleAnswer3: '&divide',
-		possibleAnswer4: '+',
+		question: 'a __  c x b / c = a + c x b / c',
+		answers: [
+			'-', 'x', '/', '+'
+		],
 		answer: '+'
 	}
 ]
+

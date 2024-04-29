@@ -1,17 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Platform } from 'react-native';
 import LottieView from 'lottie-react-native';
-import animationD from '../assets/animations/D_con_fuego_02.json';
+import animationD from '../assets/animations/D_con_fuego.json';
 import BackgroundGeneral from '../containers/BackgroundGeneral';
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, coin }) {
 	const lottieRef = useRef(null);
 
   useEffect(() => {
-    // Iniciar la animación en un loop
     if (lottieRef.current) {
-      // Iniciar la animación en un loop
-      lottieRef.current.play(0, -1); // El segundo argumento -1 indica loop infinito
+      lottieRef.current.play();
     }
   }, []);
 
@@ -20,19 +18,20 @@ export default function Home({ navigation }) {
 	}
 
   return (
-		<BackgroundGeneral>
+		<BackgroundGeneral coin={coin}>
 			{(Platform.OS === 'android' || Platform.OS == 'ios') &&
 				<LottieView
 					ref={lottieRef}
 					source={animationD}
 					autoPlay
-					loop
+					loop={false}
 					style={styles.animation}
 				/>
 			}
 			{Platform.OS === 'web' &&
 				<Image
 					source={require('../assets/img/pantalla_puntos/DconGlow.png')}
+					resizeMode='contain'
 					style={[styles.circle, styles.cohete]}
 				/>
 			}
@@ -40,6 +39,7 @@ export default function Home({ navigation }) {
 				<Image
 					source={require('../assets/img/pantalla_puntos/Llama.png')}
 					style={[styles.circle, styles.llama]}
+					resizeMode='contain'
 				/>
 			}
 			<Image source={require('../assets/img/circulos_pantallas/Circulo-amarillo-largo.png')}
@@ -71,13 +71,13 @@ export default function Home({ navigation }) {
 					</View>
 				</ImageBackground>
 			</View>
-					<View style={styles.contentButton}>
-						<TouchableOpacity style={styles.button} onPress={changeScreen}>
-							<Text style={styles.buttonText}>
-								¡Acepto el reto!
-							</Text>
-						</TouchableOpacity>
-					</View>
+			<View style={styles.contentButton}>
+				<TouchableOpacity style={styles.button} onPress={changeScreen}>
+					<Text style={styles.buttonText}>
+						¡Acepto el reto!
+					</Text>
+				</TouchableOpacity>
+			</View>
 			<Image source={require('../assets/img/circulos_pantallas/yellow-background.jpg')}
 				resizeMode="cover"
 				style={[styles.circle, styles.backYellow]}
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 	contentPrincipal: {
 		position: 'absolute',
 		width: Platform.select({
-			web: '70%',
+			web: '60%',
 			default: '90%'
 		}),
 		top: Platform.select({
@@ -106,8 +106,11 @@ const styles = StyleSheet.create({
 			default: '28%'
 		}),
 		left: Platform.select({
-			web: '15%',
+			web: '20%',
 			default: '5%'
+		}),
+		height: Platform.select({
+			web: '100%',
 		}),
 		borderBottomWidth: 8,
     borderBottomColor: '#032E54',
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
 		zIndex: 19,
 	},
 	contentPrincipal2: {
-		height: 330,
+		height: 320,
 		display: 'flex',
 		width: Platform.select({
 			web: '100%'
@@ -144,23 +147,23 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		fontSize: 25,
 		fontFamily: "sans-serif",
-		fontWeight: '700',
+		fontWeight: '600',
 		textAlign: 'center'
 	},
 	textSec2: {
 		color: 'white',
 		fontSize: 25,
 		fontFamily: "sans-serif",
-		fontWeight: '800',
+		fontWeight: 'bold',
 		textAlign: 'center'
 	},
 	backYellow: {
 		height: Platform.select({
-			web: 400,
+			web: 350,
 			default: 200
 		}),
 		width: Platform.select({
-			web: '60%',
+			web: '50%',
 			default: '42%'
 		}),
 		position: 'absolute',
@@ -180,22 +183,26 @@ const styles = StyleSheet.create({
 			default: 'contain'
 		}),
 		height: Platform.select({
-			web: 500,
+			web: 650,
 			default: 300
 		}),
 		position: 'absolute',
-		bottom: 40,
+		bottom: Platform.select({
+			web: 20,
+			default: 40
+		}),
 		left: Platform.select({
-			web: -20,
+			web: 0,
 			default: -80
 		}),
 		zIndex: 20
 	},
 	animation: {
-		width: 200,
-		height: 200,
+		width: 750,
+		height: 750,
 		position: 'absolute',
-		top: 100,
+		top: 50,
+		left: -200,
 		zIndex: 21
 	},
 	contentButton: {
@@ -206,7 +213,7 @@ const styles = StyleSheet.create({
 		height: 55,
 		position: 'absolute',
 		top: Platform.select({
-			web: '60%',
+			web: '40%',
 			default: '56%'
 		}),
 		left: Platform.select({
@@ -251,16 +258,16 @@ const styles = StyleSheet.create({
 			web: '21%',
 			default: '22%'
 		}),
-		width: 150,
-		height: 150,
+		width: 200,
+		height: 200,
 		zIndex: 23
 	},
 	llama: {
 		position: 'absolute',
-		top: 68,
-		left: '12%',
-		width: 150,
-		height: 150,
+		top: 78,
+		left: '13%',
+		width: 190,
+		height: 190,
 		zIndex: 22
 	}
 });

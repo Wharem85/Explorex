@@ -127,7 +127,7 @@ export default function ViewResults({incorrectCount, setIncorrectCount, correctC
 				</ImageBackground>
 			</View>
 			<View style={styles.contentButton}>
-				<TouchableOpacity style={styles.button} onPress={() => setValue(0)} >
+				<TouchableOpacity style={styles.button}>
 					<Text style={styles.buttonText}>
 						Iniciar mision #2
 					</Text>

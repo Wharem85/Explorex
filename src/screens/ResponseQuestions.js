@@ -5,6 +5,7 @@ import { jerarquia } from '../utils/jerarquiaOperaciones'
 import { Audio } from 'expo-av';
 import LottieView from 'lottie-react-native';
 import animationE from '../assets/animations/Estrellitas.json';
+import animationTimer from '../assets/animations/timer_amarillo.json';
 import ViewResults from './ViewResults';
 
 export default function ResponseQuestions({setCoin, coin}) {
@@ -42,7 +43,6 @@ export default function ResponseQuestions({setCoin, coin}) {
     } else {
 			setCoin(`000${correctCount * 5}`)
 			setViewRes(true);
-      // Si ya has respondido todas las preguntas, puedes realizar alguna acción, como mostrar un botón de "Calificar".
     }
   };
 
@@ -172,6 +172,15 @@ export default function ResponseQuestions({setCoin, coin}) {
 					resizeMode="cover"
 					style={styles.lineaTitle}
 				/>
+				{(Platform.OS === 'android' || Platform.OS == 'ios') &&
+					<LottieView
+						ref={lottieRef}
+						source={animationTimer}
+						autoPlay
+						loop
+						style={[styles.animationTimer]}
+					/>
+				}
 				<View style={styles.container}>
 					<Text style={styles.levelText}>Nivel {currentQuestionIndex + 1}/20</Text>
 					<View style={styles.centerBar}>
@@ -277,6 +286,14 @@ const styles = StyleSheet.create({
 		height: 200,
 		position: 'absolute',
 		top: 100,
+	},
+	animationTimer: {
+		width: 50,
+		height: 50,
+		position: 'absolute',
+		top: 165,
+		right: 0,
+		zIndex: 10
 	},
 	chanin: {
 		flex: 1,

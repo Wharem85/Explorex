@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Platform,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Platform,TouchableOpacity, ScrollView  } from 'react-native';
 import BackgroundGeneral from '../containers/BackgroundGeneral';
 import { jerarquia } from '../utils/jerarquiaOperaciones'
 import { Audio } from 'expo-av';
@@ -119,20 +119,23 @@ export default function ResponseQuestions({setCoin, coin}) {
     if (question.includes('__')) {
       const [part1, part2] = question.split('__');
       return (
-        <View style={styles.questionTextContainer}>
-          <Text style={styles.questionText}>
-						{part1}
-						<Image
-							source={require('../assets/img/QuestionMark.png')}
-							resizeMode="stretch"
-							style={styles.questionMark}
-						/>
-						{part2}
-					</Text>
-        </View>
+	<ScrollView>
+	        <View style={styles.questionTextContainer}>
+	          <Text style={styles.questionText}>
+			{part1}
+			<Image
+				source={require('../assets/img/QuestionMark.png')}
+				resizeMode="stretch"
+				style={styles.questionMark}
+			/>
+			{part2}
+		</Text>
+		</View>
+	</ScrollView>
       );
     } else if (question.includes('=')) {
 			return (
+	<ScrollView>
         <View style={styles.questionTextContainer}>
           <Text style={styles.questionText}>
 						{`${question} `}
@@ -143,14 +146,17 @@ export default function ResponseQuestions({setCoin, coin}) {
 						/>
 					</Text>
         </View>
+	</ScrollView>
       );
 		} else {
       return (
+	<ScrollView>
         <View style={styles.questionTextContainer}>
           <Text style={styles.questionText}>
 						{question}
 					</Text>
         </View>
+	</ScrollView>
       );
     }
   };
